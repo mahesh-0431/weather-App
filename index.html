@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+    <title>Document</title>
     <link rel="stylesheet" href="style.css">
+     
 </head>
 <body>
     <div class="container">
@@ -13,20 +14,18 @@
             <p>Weather App</p>
         </div> 
         <div class="input">
-            
-            <select id="city-select">
-                <option value="">Select a city...</option>
-                <option value="Guntur">Guntur</option>
-                <option value="Ongole">Ongole</option>
-                <option value="Hyderabad">Hyderabad</option>
-            </select>
-            <input type="button" value="Get Weather" id="btn">
+            <input type="text" id="location-input" list="location-list" placeholder="Location...">
+            <input type="button" value="Get" id="btn">
+            <datalist id="location-list">
+                <!-- Options will be dynamically added here -->
+            </datalist>
         </div>
+             
         <div class="info">
-            <img src="cloud.png" id="icon" alt="Weather icon">
-            <div class="temp"><span id="temp-value">--</span><span id="unit">°</span><span id="c">C</span></div>
-            <div id="weather-desc">--</div>
-            <div id="location">--</div>
+            <img src="cloud.png" id="icon" >
+            <div class="temp"><span id="temp-value">25</span><span id="unit">&#176</span><span id="c">C</span> </div>
+            <div id="weather-desc">Cloudy</div>
+            <div id="location">Hyderabad</div>
         </div>
     </div>
     <script src="script.js"></script>    
