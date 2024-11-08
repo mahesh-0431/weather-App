@@ -1,65 +1,37 @@
-let inputEle = document.getElementById("location-input");
 let tempEle = document.getElementById("temp-value");
 let locEle = document.getElementById("location");
-let weatherdescEle = document.getElementById('weather-desc');
+let weatherdescEle = document.getElementById("weather-desc");
 let btnEle = document.getElementById("btn");
-let datalist = document.getElementById("location-list");
+let citySelect = document.getElementById("city-select");
 
 const apiKey = '8f4485f5f505ef4d2ad72e90b213a15f';
 
-inputEle.addEventListener("input", function() {
-    const query = inputEle.value.trim();
-    if (query.length < 1) return; 
+btnEle.onclick = function() {
+    const selectedCity = citySelect.value;
     
-
-    const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${apiKey}`;
-
-    fetch(geoUrl)
-        .then(response => response.json())
-        .then(data => {
-            datalist.innerHTML = ""; 
-
+    if (selectedCity === "") {
+        alert("Please select a city");
+    } else {
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${selectedCity}&appid=${apiKey}`;
         
-            if (Array.isArray(data) && data.length > 0) {
-                data.forEach(location => {
-                    const option = document.createElement("option");
-                    option.value = `${location.name}, ${location.country}`;
-                    datalist.appendChild(option);
-                });
-            } else {
-                console.log("No matching locations found");
-            }
-        })
-        .catch(error => {
-            console.error("Error fetching location data:", error);
-        });
-});
-
-
-btnEle.onclick = function(){
-    if(inputEle.value === "")
-        alert("Please enter a location");
-    else{
-        const loc = inputEle.value;
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${loc}&appid=${apiKey}`;
-
         fetch(url)
-            .then(res => res.json())
+            .then(response => response.json())
             .then(data => {
                 if (data && data.main && data.weather) {
                     const { name } = data;
-                    const { feels_like } = data.main;
+                    const { temp } = data.main;
                     const { description } = data.weather[0];
-                    tempEle.innerText = Math.floor(feels_like - 273); 
+                    
+                
+                    tempEle.innerText = Math.round(temp - 273.15);
                     locEle.innerText = name;
                     weatherdescEle.innerText = description;
                 } else {
-                    alert("Location not found. Please try another.");
+                    alert("Weather data not found for the selected city.");
                 }
             })
             .catch(() => {
-                alert("Please enter a valid location");
+                alert("An error occurred. Please try again.");
             });
-        inputEle.value = "";
     }
 };
